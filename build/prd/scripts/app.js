@@ -54,6 +54,7 @@
 	/*** IMPORTS FROM imports-loader ***/
 	var define = false;
 
+	window.Domain = "192.168.1.51";
 	__webpack_require__(2);
 
 
@@ -72,6 +73,9 @@
 
 	common.renderBody($('body'), str);
 	common.append($('.container'), footer);
+
+
+	$('body').append('<h1>'+ Domain +'</h1>');
 
 
 

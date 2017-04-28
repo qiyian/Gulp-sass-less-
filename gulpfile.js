@@ -96,22 +96,54 @@ gulp.task('less', function () {
 });
 
 // js 模块化，合并，压缩
-var jsFiles = [
-  './src/scripts/*.js'
+// var jsFiles = [
+//   './src/scripts/*.js'
+// ];
+// gulp.task('packjs', function () {
+//   gulp.src(jsFiles)
+//     .pipe(named())
+//     .pipe(webpack({
+//       output: {
+//         filename: '[name].js'
+//       },
+//       module: {
+//         loaders: [
+//           {
+//             test: /\.js$/,
+//             loader: 'imports?define=>false',
+//             exclude: './src/scripts/libs/zepto.js'
+//           },
+//           {
+//             test: /\.string$/,
+//             loader: 'string'
+//           }
+//         ]
+//       }
+//     }))
+//     // .pipe(uglify().on('error', function (err) {
+//     //   console.log('\x07', err.lineNumber, err.message);
+//     //   return this.end();
+//     // }))
+//     .pipe(gulp.dest('./build/prd/scripts/'));
+// });
+
+
+// app-dev.js
+var jsDevFiles = [
+  './src/scripts/app-dev.js'
 ];
-gulp.task('packjs', function () {
-  gulp.src(jsFiles)
+gulp.task('packdevjs', function () {
+  gulp.src(jsDevFiles)
     .pipe(named())
     .pipe(webpack({
       output: {
-        filename: '[name].js'
+        filename: 'app.js'
       },
       module: {
         loaders: [
           {
             test: /\.js$/,
             loader: 'imports?define=>false',
-            exclude: './src/scripts/libs/zepto.js'
           },
           {
             test: /\.string$/,
@@ -126,6 +158,70 @@ gulp.task('packjs', function () {
     // }))
     .pipe(gulp.dest('./build/prd/scripts/'));
 });
+
+// app-test.js
+var jsTestFiles = [
+  './src/scripts/app-test.js'
+];
+gulp.task('packtestjs', function () {
+  gulp.src(jsTestFiles)
+    .pipe(named())
+    .pipe(webpack({
+      output: {
+        filename: 'app.js'
+      },
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            loader: 'imports?define=>false',
+          },
+          {
+            test: /\.string$/,
+            loader: 'string'
+          }
+        ]
+      }
+    }))
+    // .pipe(uglify().on('error', function (err) {
+    //   console.log('\x07', err.lineNumber, err.message);
+    //   return this.end();
+    // }))
+    .pipe(gulp.dest('./build/prd/scripts/'));
+});
+
+// app-build.js
+var jsBuildFiles = [
+  './src/scripts/app-build.js'
+];
+gulp.task('packbuildjs', function () {
+  gulp.src(jsBuildFiles)
+    .pipe(named())
+    .pipe(webpack({
+      output: {
+        filename: 'app.js'
+      },
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            loader: 'imports?define=>false',
+          },
+          {
+            test: /\.string$/,
+            loader: 'string'
+          }
+        ]
+      }
+    }))
+    // .pipe(uglify().on('error', function (err) {
+    //   console.log('\x07', err.lineNumber, err.message);
+    //   return this.end();
+    // }))
+    .pipe(gulp.dest('./build/prd/scripts/'));
+});
+
+
 
 // 版本号控制
 var cssDistFiles = [
@@ -177,9 +273,9 @@ gulp.task('imagemin', function () {
 
 // 来源地图
 gulp.task('scriptmaps', function() {
-  gulp.src(['./src/scripts/app.js','!*.min.js']) // 指明源文件路径、并进行文件匹配，排除 .min.js 后缀的文件
+  gulp.src(['./src/scripts/app-dev.js','!*.min.js']) // 指明源文件路径、并进行文件匹配，排除 .min.js 后缀的文件
     .pipe(sourcemaps.init()) // 执行sourcemaps
-    .pipe(sourcemaps.write('./src/maps')) // 地图输出路径（存放位置）
+    // .pipe(sourcemaps.write('./src/maps')) // 地图输出路径（存放位置）
     .pipe(gulp.dest('./src/maps')); // 输出路径
 });
 
@@ -189,7 +285,9 @@ gulp.task('watch', function () {
   gulp.watch('./images/**/*', ['copy-images']);
   gulp.watch('./src/styles/**/*', ['scss']);
   gulp.watch('./src/styles/**/*', ['less']);
-  gulp.watch('./src/scripts/**/*', ['packjs']);
+  // gulp.watch('./src/scripts/**/*', ['packdevjs']);
+  // gulp.watch('./src/scripts/**/*', ['packtestjs']);
+  // gulp.watch('./src/scripts/**/*', ['packbuildjs']);
 });
 
 // 配置 default 任务，执行任务队列
